@@ -1,0 +1,72 @@
+---
+title: "COMP1014_Assigment 1"
+author: "Prema Santhi"
+date: "2025-06-13"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Calling data
+```{r}
+dataset=read.csv("AssessmentSet1.csv")
+```
+
+# Question 1
+Test whether there is an association between shopping frequency and gender.
+
+Make sure you:
+
+a. Visualize the data,
+
+b. Show all the key steps of hypothesis testing,
+
+c. Interpret the results, both statistically and in the context of the case. In no more than 3 sentences explain what the results reveal about how store location is associated with gender, and how might these insights inform marketing strategies or store management decisions?
+
+## Hypothesis
+H0 = Rows and columns are independent.  In other word,
+
+H0: There is no relation between shopping frequency and gender.
+
+
+Ha = rows and columns are not independent. In other word,
+
+Ha: There is a relation between shopping frequency and gender.
+
+## Approach
+The shopping frequency and gender were grouped together using table.
+```{r}
+shoppingGender.data= table(dataset$Gender,dataset$ShoppingFrequency)
+shoppingGender.data
+```
+
+## Plotting the data
+Visualize the data using barplot.
+
+```{r}
+barplot(shoppingGender.data, beside=TRUE, col=c("light green", "light blue","red"),
+        legend=c("Female", "Male","Other"),
+        main="Association between shopping frequency and gender")
+```
+
+## Testing
+Before we conduct a testing using chi-square, we need to determine the expected number.
+```{r}
+test=chisq.test(shoppingGender.data)
+test$expected
+```
+
+As seen in the output, there is one value with expected count less than 5. So the simulation is required.
+```{r}
+chisq.test(shoppingGender.data, simulate.p.value = TRUE, B=1000)
+```
+
+After conducting the simulation, we got 0.965 for the p value.
+
+## Conclusion
+The p-value is greater than 0.05, therefore we cannot reject the null hypothesis and say that there is no relation between shopping frequency and gender.
+
+According to the result, all gender tend to have the same shopping frequency. It means that the store need to look after the products that each gender are more frequently buy at a specific time (daily, monthly, etc.).
