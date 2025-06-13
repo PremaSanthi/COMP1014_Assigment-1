@@ -194,3 +194,94 @@ Based on the p.value, male and female shows significant different in giving sati
 
 ## Conclusion
 Because men and women shows differences in giving satisfaction score, the owner need to  analyze what happened in their store.There might be cases where they ignore the female customer or they have some problem between serving different gender. This data might help the owner to make decision regarding the action they need to take as soon as possible.
+
+# Question 4
+
+Test if age can be used to predict purchase amount. Assess the strength of the predictive
+power of age for purchase amount.
+
+Make sure you:
+
+a. Visualize the data,
+
+b. Show all the key steps of hypothesis testing,
+
+c. Interpret the results, both statistically and in the context of the case. In no more than three sentences, explain what the results reveal about the relationship
+between age and purchase amount.
+
+d. Additionally, use your model to predict the purchase amount for a customer who is 33 years old. Comment on the appropriateness of this prediction and justify your answer.
+
+e. Examine the residuals of your regression model: What do they indicate about the model's performance and any potential issues with the assumptions of your model?
+
+## Hypothesis
+H0 = Beta1 = 0. In other word,
+
+Ho: Age does not affect or predict the purchase amount 
+
+
+Ha = Beta1 !=0. In other word,
+
+Ha: Age does affect or predict the purchase amount
+
+
+## Approach
+Using permutation approach,
+```{r}
+slope.perm=replicate(1000,{
+  age.perm=sample(dataset$Age)
+  perm=lm(PurchaseAmount~age.perm,data=dataset)
+  coef(perm)[2]
+})
+```
+
+Now compute the slope of the data
+```{r}
+act.predict=lm(PurchaseAmount~Age,data=dataset)
+slope=coef(act.predict)[2]
+mean(slope.perm>abs(slope))+mean(slope.perm<-abs(slope))
+```
+
+The p-value is large, so we can reject the null hypothesis and say that the slope of the linear regresion is not 0. It means that age does have significant impact on the purchase amount.
+
+## Testing
+```{r}
+act.predict=lm(PurchaseAmount~Age,data=dataset)
+summary(act.predict)
+```
+
+The Residuals are quite large (70.46), so it difference between the observed data and the prediction is large. Then the transformation is required.
+
+### Transformation
+Using log transformation:
+```{r}
+trans=lm(log(PurchaseAmount)~Age,data=dataset)
+summary(trans)
+```
+
+After the transformation the Residuals become smaller. Then we can conclude the prediction using this equation.
+
+## Equation
+y = a+bx
+
+Purchase amount = a+b*Age
+
+Based on the result,
+
+The equation is: Purchases amount = 4.179577 + (0.012821*Age)
+
+## Plotting the data
+Plot the transformed function.
+```{r}
+plot(trans)
+```
+
+The data are quite close to 0.
+
+## Predict y using the model
+Predict the purchase amount for a customer who is 33 years old.
+```{r}
+new.data=predict(trans,newdata =data.frame(Age=33))
+exp(new.data) # because it is in the form of logarithm (log(y)), so we need to find the y
+```
+
+Because the Residuals are small, then the prediction might be accurate. So when the customer is 33 years old, the total cost they pay is 99.7.
