@@ -1,7 +1,7 @@
 ---
 title: "COMP1014_Assigment 1"
 author: "Prema Santhi"
-date: "2025-06-13"
+date: "2024-11-29"
 output: word_document
 ---
 
@@ -70,3 +70,64 @@ After conducting the simulation, we got 0.965 for the p value.
 The p-value is greater than 0.05, therefore we cannot reject the null hypothesis and say that there is no relation between shopping frequency and gender.
 
 According to the result, all gender tend to have the same shopping frequency. It means that the store need to look after the products that each gender are more frequently buy at a specific time (daily, monthly, etc.).
+
+# Question 2
+Test whether the mean age of customers who shop at Hornsby is significantly greater than
+that of customers who shop at Bondi.
+
+Make sure you:
+
+a. Visualize the data,
+
+b. Show all the key steps of hypothesis testing,
+
+c. Interpret the results, both statistically and in the context of the case. In no more than three sentences, explain what the results reveal about the shopping behaviour, and how these findings could be relevant for marketing or product placement strategies.
+
+
+## Hypothesis
+H0 = miu1 = miu2.  In other word,
+
+H0: There is no difference in mean age of customers who shop at Hornsby and the customers who shop at Bondi.
+
+
+Ha = miu1 > miu2. In other word,
+
+Ha: The mean age of customers who shop at Hornsby is significantly greater than
+the customers who shop at Bondi.
+
+## Approach
+Divide the age and store location at Hornsby using subset.
+```{r}
+age.horn=subset(dataset, StoreLocation=="Hornsby", Age, drop=TRUE)
+age.horn
+```
+
+Divide the age and store location at Bondi using subset.
+```{r}
+age.bon=subset(dataset, StoreLocation=="Bondi", Age, drop=TRUE)
+age.bon
+```
+
+## Plotting the data
+
+First, we visualize the data of customer who went shopping at Hornsby.
+```{r}
+hist(age.horn,xlab="Age",main = "Customer at Hornsby", col="light blue")
+```
+
+Second, we visualize the data of customer who went shopping at Bondi.
+```{r}
+hist(age.bon,xlab="Age",main = "Customer at Bondi",col="light green")
+```
+
+
+## Testing the data
+Test the means using t-test.
+```{r}
+t.test(age.horn,age.bon,alternative="greater",var.equal = TRUE)
+```
+
+The p-value is 0.4863.
+
+## Conclusion
+Based on the p-value, we cannot reject the null hypothesis. So we say that there is no difference in mean age of customers who shop at Hornsby and the customers who shop at Bondi. By means that the manager need to sell the products that are usually bought by different stage of age (referring to the data: from teenager to elderly).
