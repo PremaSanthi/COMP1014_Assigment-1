@@ -285,3 +285,9 @@ exp(new.data) # because it is in the form of logarithm (log(y)), so we need to f
 ```
 
 Because the Residuals are small, then the prediction might be accurate. So when the customer is 33 years old, the total cost they pay is 99.7.
+
+# Question 5
+Describe the potential sampling process that Aussie Choice Retail might have used to collect this data. Consider how they might have ensured the sample is representative of their entire customer base and discuss any sampling methods that could have been employed.
+
+## Answer
+They will define the population which all customers who shop at 16 different store location in Australia. From the population, select some of them to be analyze by capturing transaction data or doing voluntary survey. Divide the customers into groups like customer ID, Age, Gender, Annual Income, Purchase Amount, Store Location, Number Of Items, Payment Method, Satisfaction Score, Loyalty Program, shopping Frequency, Grocery Purchase, Household Purchase, Personal Care Purchase, Baby Purchase, and Pet Purchase. 
