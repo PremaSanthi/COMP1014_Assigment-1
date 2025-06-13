@@ -131,3 +131,66 @@ The p-value is 0.4863.
 
 ## Conclusion
 Based on the p-value, we cannot reject the null hypothesis. So we say that there is no difference in mean age of customers who shop at Hornsby and the customers who shop at Bondi. By means that the manager need to sell the products that are usually bought by different stage of age (referring to the data: from teenager to elderly).
+
+# Question 3
+Test whether there is a significant difference in the mean satisfaction score across different genders.
+
+Make sure you:
+
+a. Visualize the data,
+
+b. Show all the key steps of hypothesis testing,
+
+c. Interpret the results, both statistically and in the context of the case. In no more than three sentences, explain what the results reveal about the difference mean satisfaction score across different genders.
+
+d. Additionally, identify which specific genders show significant differences and explain how these insights could be used to make informed business decisions (only print the significant results).
+
+## Hypothesis
+H0 = miu1 = miu2.  In other word,
+
+H0: There is no significant difference in the mean satisfaction score across different genders.
+
+
+Ha = miu1 != miu2. In other word,
+
+Ha: There is a significant difference in the mean satisfaction score across different genders
+
+## Approach
+Divide the gender and satisfaction score using table
+```{r}
+satisfac=table(dataset$Gender, dataset$SatisfactionScore)
+satisfac
+```
+
+The row names represent satisfaction score in a range between 3-10.
+
+## Plotting the data
+```{r}
+barplot(satisfac, beside=TRUE,
+        legend=c("Female","Male","Other"))
+```
+
+## Testing
+Next, using table to know whether the sample size is large enough or not for each category.
+```{r}
+table(dataset$Gender)
+```
+
+All the sample size are greater than 30. So we can directly use the oneway test
+```{r}
+oneway.test(SatisfactionScore~Gender, data=dataset, var.equal = TRUE)
+```
+
+After the testing, the p-value is 0.00. Since the p-value is smaller than 0.05, we can reject the null hypothesis and state that there is a difference between satisfaction score and the gender. 
+
+## Which one is different?
+To know which one is different, we can test using post-hoc comparison.
+```{r}
+diff.aov=aov(SatisfactionScore~Gender,data=dataset)
+TukeyHSD(diff.aov)
+```
+
+Based on the p.value, male and female shows significant different in giving satisfaction score.
+
+## Conclusion
+Because men and women shows differences in giving satisfaction score, the owner need to  analyze what happened in their store.There might be cases where they ignore the female customer or they have some problem between serving different gender. This data might help the owner to make decision regarding the action they need to take as soon as possible.
